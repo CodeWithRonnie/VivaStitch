@@ -6,6 +6,7 @@
 {% endcomment %}
 
 <h1>{{ collection.title }}</h1>
+<div>1234</div>
 
 <div class="collection-products">
   {% paginate collection.products by 20 %}
@@ -35,8 +36,29 @@
 {% stylesheet %}
   .collection-products {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    gap: 30px;
+    border-radius: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
+
+  
+.collection-product {
+  border: 1px solid #000;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.collection-product__image img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover; /* ensures the image fills the div nicely */
+}
+
+.collection-product__content {
+  padding: 15px;
+}
 {% endstylesheet %}
 
 {% schema %}

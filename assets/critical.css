@@ -17,10 +17,10 @@ p{
 }
 
 .product_section{
-  width: 30%;
+  width: 80%;
   display: flex;
-
-  gap: 40%;
+  justify-content: space-around;
+  gap: 10%;
   margin-left: 2%;
   border: none;
   padding: 20px;
