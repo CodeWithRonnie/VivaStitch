@@ -3,18 +3,18 @@
    <button class="hamburger" onclick="toggleDrawer()">☰</button>
 
   <nav class="collection-nav">
-    <a href="/collections/all" class="{% if collection.handle == 'all' %}active{% endif %}">All</a>
-    <a href="/collections/socks" class="{% if collection.handle == 'socks' %}active{% endif %}">Socks</a>
-    <a href="/collections/womens-t-shirts" class="{% if collection.handle == 'womens-t-shirts' %}active{% endif %}">Women's T-shirts</a>
-    <a href="/collections/mens-t-shirts" class="{% if collection.handle == 'mens-t-shirts' %}active{% endif %}">Men's T-shirts</a>
-    <a href="/collections/hoodies" class="{% if collection.handle == 'hoodies' %}active{% endif %}">Hoodies</a>
+    <a href="{{ routes.all_products_collection_url }}" class="{% if collection.handle == 'all' %}active{% endif %}">All</a>
+    <a href="{{ routes.collections_url }}/socks" class="{% if collection.handle == 'socks' %}active{% endif %}">Socks</a>
+    <a href="{{ routes.collections_url }}/womens-t-shirts" class="{% if collection.handle == 'womens-t-shirts' %}active{% endif %}">Women's T-shirts</a>
+    <a href="{{ routes.collections_url }}/mens-t-shirts" class="{% if collection.handle == 'mens-t-shirts' %}active{% endif %}">Men's T-shirts</a>
+    <a href="{{ routes.collections_url }}/hoodies" class="{% if collection.handle == 'hoodies' %}active{% endif %}">Hoodies</a>
   </nav>
 
   <h1 class="storeLogo">VivaStitch</h1>
  
   <div class="header-right">
-    <a href="/account">Account</a>
-    <a href="/cart">Bag({{ cart.item_count }})</a>
+    <a href="{{ routes.account_url }}">Account</a>
+    <a href="{{ routes.cart_url }}">Bag({{ cart.item_count }})</a>
   </div>
 
   <div id="drawer" class="drawer">
@@ -22,16 +22,16 @@
     <button class="close-drawer" onclick="toggleDrawer()">✕</button>
 
     <ul class="drawer-links">
-      <li><a href="/collections/all">Shop All</a></li>
-      <li><a href="/collections/socks">Socks</a></li>
-      <li><a href="/collections/womens-t-shirts">Women's T-shirts</a></li>
-      <li><a href="/collections/mens-t-shirts">Men's T-shirts</a></li>
-      <li><a href="/collections/hoodies">Hoodies</a></li>
-      <li><a href="/collections/gift-cards">Gift Cards</a></li>
+      <li><a href="{{ routes.all_products_collection_url }}">Shop All</a></li>
+      <li><a href="{{ routes.collections_url }}/socks">Socks</a></li>
+      <li><a href="{{ routes.collections_url }}/womens-t-shirts">Women's T-shirts</a></li>
+      <li><a href="{{ routes.collections_url }}/mens-t-shirts">Men's T-shirts</a></li>
+      <li><a href="{{ routes.collections_url }}/hoodies">Hoodies</a></li>
+      <li><a href="{{ routes.collections_url }}/gift-cards">Gift Cards</a></li>
     </ul>
 
     <div class="drawer-bottom">
-      <a href="/account">Account</a>
+      <a href="{{ routes.account_url }}">Account</a>
       <a href="/pages/contact">Contact</a>
     </div>
   </div>
