@@ -1,7 +1,6 @@
 <div class="collection-header">
- 
-  <h1 class="storeLogo">VivaStitch</h1>
 
+   <button class="hamburger" onclick="toggleDrawer()">☰</button>
 
   <nav class="collection-nav">
     <a href="/collections/all" class="{% if collection.handle == 'all' %}active{% endif %}">All</a>
@@ -11,11 +10,32 @@
     <a href="/collections/hoodies" class="{% if collection.handle == 'hoodies' %}active{% endif %}">Hoodies</a>
   </nav>
 
+  <h1 class="storeLogo">VivaStitch</h1>
  
   <div class="header-right">
     <a href="/account">Account</a>
     <a href="/cart">Bag({{ cart.item_count }})</a>
   </div>
+
+  <div id="drawer" class="drawer">
+  <div class="drawer-content">
+    <button class="close-drawer" onclick="toggleDrawer()">✕</button>
+
+    <ul class="drawer-links">
+      <li><a href="/collections/all">Shop All</a></li>
+      <li><a href="/collections/socks">Socks</a></li>
+      <li><a href="/collections/womens-t-shirts">Women's T-shirts</a></li>
+      <li><a href="/collections/mens-t-shirts">Men's T-shirts</a></li>
+      <li><a href="/collections/hoodies">Hoodies</a></li>
+      <li><a href="/collections/gift-cards">Gift Cards</a></li>
+    </ul>
+
+    <div class="drawer-bottom">
+      <a href="/account">Account</a>
+      <a href="/pages/contact">Contact</a>
+    </div>
+  </div>
+</div>
 </div>
 
 
@@ -41,13 +61,13 @@
   font-family: 'Brush Script MT', cursive;
   font-size: 30px;
   color: #000; 
-  margin-right: 20px;
+  margin-right: 35%;
 }
 
 
 .collection-nav {
   display: flex;
-  gap: 12px;
+  gap: 3px;
   flex-wrap: wrap; 
 }
 
@@ -65,7 +85,7 @@
 .collection-nav a:hover,
 .collection-nav a.active {
   background-color: #878686ff;
-  color: #1b1919ff; 
+  color: #151515ff; 
   transform: translateY(-2px);
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
@@ -86,13 +106,34 @@
 }
 
 .header-right a:hover {
-  color: #252323ff;
+  color: #151515ff;
   transform: translateY(-2px);
 }
 
 body {
   padding-top: 80px; 
 }
+
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 280px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+  transition: left 0.3s ease;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.drawer.open {
+  left: 0;
+}
+
 
 {% endstylesheet %}
 
