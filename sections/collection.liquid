@@ -5,8 +5,20 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
-<h1>{{ collection.title }}</h1>
-<div>1234</div>
+<div class="collection-sort">
+  <form method="get" action="">
+    <label for="sort-by">Sort by:</label>
+    <select name="sort_by" id="sort-by" onchange="this.form.submit()">
+      <option value="best-selling">Best Selling</option>
+      <option value="title-ascending">Alphabetically, A–Z</option>
+      <option value="title-descending">Alphabetically, Z–A</option>
+      <option value="price-ascending">Price, low to high</option>
+      <option value="price-descending">Price, high to low</option>
+      <option value="created-descending">Date, new to old</option>
+    </select>
+  </form>
+</div>
+
 
 <div class="collection-products">
   {% paginate collection.products by 20 %}
@@ -23,42 +35,275 @@
           %}
         {% endif %}
         <div class="collection-product__content">
+          <button class="add-to-cart-btn">Add to Bag</button>
+
           <p>{{ product.title | escape | link_to: product.url }}</p>
           <p>{{ product.price | money }}</p>
         </div>
+        
       </div>
+
+ 
+
     {% endfor %}
 
     {{ paginate | default_pagination }}
   {% endpaginate %}
 </div>
 
-{% stylesheet %}
-  .collection-products {
-    display: grid;
-    gap: 30px;
-    border-radius: 10px;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  }
+<footer class="store-footer">
+  <div class="footer-columns">
+    <div class="footer-logo">
+      <h2>VivaStitch</h2>
+      <p>Where style meets comfort ✨</p>
+    </div>
 
+    <div class="footer-links">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="/collections/all">All Products</a></li>
+        <li><a href="/collections/womens-t-shirts">Women</a></li>
+        <li><a href="/collections/mens-t-shirts">Men</a></li>
+        <li><a href="/collections/hoodies">Hoodies</a></li>
+        <li><a href="/collections/socks">Socks</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-links">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="/pages/about">About Us</a></li>
+        <li><a href="/pages/contact">Contact</a></li>
+        <li><a href="/policies/shipping-policy">Shipping</a></li>
+        <li><a href="/policies/refund-policy">Returns</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-newsletter">
+      <h4>Join the Family 💌</h4>
+      <form>
+        <input type="email" placeholder="Enter your email" required />
+        <button type="submit">Subscribe</button>
+      </form>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <p class="footer-bottom">© {{ 'now' | date: "%Y" }} VivaStitch — Made with ❤️ for fashion lovers.</p>
+</footer>
+
+
+{% stylesheet %}
+  body {
+   font-family: 'Poppins', sans-serif;
+  color: #222;
+  margin: 0;
+  padding: 0;
+  background-color: #fafafa;
   
-.collection-product {
-  border: 1px solid #000;
-  border-radius: 10px;
+}
+
+
+ .collection-product {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.collection-product:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .collection-product__image img {
   width: 100%;
-  height: 250px;
-  object-fit: cover; /* ensures the image fills the div nicely */
+  height: 280px;
+  object-fit: cover;
+  background: #f5f5f5;
+  transition: transform 0.3s ease;
+}
+
+.collection-product:hover .collection-product__image img {
+  transform: scale(1.05);
 }
 
 .collection-product__content {
   padding: 15px;
+  text-align: center;
 }
+
+.collection-product__content p:first-child {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.collection-product__content p:last-child {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.collection-products {
+  display: grid;
+  gap: 25px;
+  padding: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+
+.add-to-cart-btn {
+  margin-top: 10px;
+  background: #363636ff;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background: #565757ff;
+}
+
+
+
+.storeLogo {
+  font-family: 'Brush Script MT', cursive;
+  font-size: 30px;
+  color: #000;
+  margin-right: 20px;
+}
+
+
+
+.collection-sort {
+  text-align: right;
+  margin: 20px 30px;
+}
+
+.collection-sort select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+
+.store-footer {
+  background: linear-gradient(135deg, #111, #222);
+  color: #eee;
+  padding: 50px 20px;
+  margin-top: 50px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.footer-logo h2 {
+  font-family: 'Brush Script MT', cursive;
+  font-size: 32px;
+  color: #ff4d6d;
+}
+
+.footer-logo p {
+  font-size: 14px;
+  color: #bbb;
+  margin-top: 6px;
+}
+
+.footer-links h4,
+.footer-newsletter h4 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #ff4d6d;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 8px;
+}
+
+.footer-links a {
+  color: #eee;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ff4d6d;
+}
+
+.footer-newsletter form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.footer-newsletter input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 30px;
+  border: none;
+  outline: none;
+}
+
+.footer-newsletter button {
+  background: #ff4d6d;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.footer-newsletter button:hover {
+  background: #e63950;
+}
+
+.footer-social {
+  display: flex;
+  gap: 15px;
+  font-size: 20px;
+}
+
+.footer-social a {
+  color: #eee;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer-social a:hover {
+  transform: scale(1.2);
+  color: #ff4d6d;
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+  border-top: 1px solid #333;
+  padding-top: 15px;
+}
+
+
 {% endstylesheet %}
 
 {% schema %}
