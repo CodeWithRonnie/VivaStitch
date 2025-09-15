@@ -3,64 +3,114 @@
 }
 
 body{
-  margin: 2%;
+  margin: 0;
 }
 
-.title{
-  width: 160%;
-  margin-top: 5%;
-  text-align: center;
-}
-
-p{
-  width: 160%;
-}
-
-.product_section{
-  width: 80%;
+.product-page {
   display: flex;
-  justify-content: space-around;
-  gap: 10%;
-  margin-left: 2%;
-  border: none;
-  padding: 20px;
-  border-radius: 10px;
+  flex-wrap: wrap;
+  gap: 40px;
+  padding: 60px;
+  margin-top: 10%;
+  font-family: 'Arial', sans-serif;
 }
 
-.input_quantity{
-  width: 5%;
-  height: auto;
-  background-color: red;
-  color: white;
-  font-weight: bold;
+.product-images {
+  flex: 1 1 400px;
+}
+
+.product-image, .product-gallery-image {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin-bottom: 10px;
+}
+
+.product-details {
+  flex: 1 1 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #191819;
+}
+
+.product-form label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.product-form input[type="number"],
+.product-form select {
+  width: 30%;
+  padding: 10px;
+  background-color: #e2dfdf;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.add-to-cart-btn {
+  background-color: #000;
+  color: #fff;
+  font-weight: 600;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
-  padding: 5px;
-  text-align: center;
+  border-radius: 8px;
   cursor: pointer;
+  transition: 0.3s ease;
 }
 
-.add_to_cart{
+.add-to-cart-btn:hover {
+  background-color: #e60023;
+}
+
+.sold-out {
+  font-size: 1.2rem;
+  color: #999;
+  font-weight: 600;
+}
+
+.product-description {
+  margin-top: 20px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.product-form select {
   width: 20%;
-  height: auto;
-  padding: 5px;
-  color: white;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-  border: none;
-  background-color: green;
-
+  padding: 10px;
+  margin: 10px 0 20px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  font-size: 1rem;
 }
 
-select{
-  width: 10%;
-  height: auto;
-  padding: 4px;
-  color: white;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: gray;
+.product-form select:focus {
+  outline: none;
+  border-color: #000;
 }
+
+
+/* Responsive */
+@media (max-width: 900px) {
+  .product-page {
+    flex-direction: column;
+  }
+}
+
+
 

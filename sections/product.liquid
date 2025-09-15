@@ -1,42 +1,73 @@
-<div class="product_section">
-  <div class="image">  
-    <img class="product_image" src="{{ product.featured_image | image_url: width: 600, height: 600 }}" width="600" height="600">
+<div class="product-page">
+
+  <!-- Product Images -->
+  <div class="product-images">
+    {% if product.images.size > 1 %}
+      <div class="image-gallery">
+        {% for image in product.images %}
+          <img class="product-gallery-image" 
+               src="{{ image | image_url: width: 600, height: 600 }}" 
+               alt="{{ product.title }}" 
+               width="600" height="600">
+        {% endfor %}
+      </div>
+    {% else %}
+      <img class="product-image" 
+           src="{{ product.featured_image | image_url: width: 600, height: 600 }}" 
+           alt="{{ product.title }}" 
+           width="600" height="600">
+    {% endif %}
   </div>
-  <div class="content">
-    <h1 class="title">{{ product.title }}</h1>
-    <p class="product_price">{{ product.price | money }}</p>
-    <p class="product_description">{{ product.description }}</p>
-  </div>
 
-</div>
-
-<div class="product_form">
-
-  {% assign current_variant = product.selected_or_first_available_variant %}
-  {% form 'product', product %}
-
-    <input type="text" name="quantity" min="1" value="1" class="input_quantity">
-
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
-
-     <input type="submit" value="Add to cart" class="add_to_cart">
-
-    {% endform %}
-
+  <!-- Product Details -->
+  <div class="product-details">
+    <h1 class="product-title">{{ product.title }}</h1>
+    <div class="product-description">
+      {{ product.description }}
     </div>
+    <p class="product-price">{{ product.price | money }}</p>
+
+    {% assign current_variant = product.selected_or_first_available_variant %}
+    {% if product.available %}
+
+      {% form 'product', product, class: 'product-form' %}
+   
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" name="quantity" value="1" min="1">
+
+         <!-- Size Dropdown -->
+    {% if product.options_with_values.size > 0 %}
+      {% for option in product.options_with_values %}
+        {% if option.name == "Size" %}
+          <label for="product-variant">{{ option.name }}</label>
+          <select name="id" id="product-variant">
+            {% for value in option.values %}
+              {% assign variant_for_value = product.variants | where: "option1", value | first %}
+              {% if variant_for_value %}
+                <option value="{{ variant_for_value.id }}"
+                  {% if variant_for_value.id == current_variant.id %}selected{% endif %}>
+                  {{ value }} - {{ variant_for_value.price | money }}
+                </option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
 
 
+        <!-- Add to Cart -->
+        <button type="submit" class="add-to-cart-btn">
+          Add to Cart
+        </button>
+
+      {% endform %}
+
+    {% else %}
+      <p class="sold-out">Sold Out</p>
+    {% endif %}
+  </div>
+</div>
 
 
 
