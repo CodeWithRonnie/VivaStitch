@@ -10,11 +10,14 @@
 {
   "sections": {
     "main": {
-      "type": "hello-world",
-      "settings": {}
+      "type": "hero"
+    },
+    "featured-collection": {
+      "type": "collection"
+    },
+    "footer": {
+      "type": "footer"
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main", "featured-collection", "footer"]
 }

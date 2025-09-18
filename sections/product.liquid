@@ -5,64 +5,94 @@
     {% if product.images.size > 1 %}
       <div class="image-gallery">
         {% for image in product.images %}
-          <img class="product-gallery-image" 
-               src="{{ image | image_url: width: 600, height: 600 }}" 
-               alt="{{ product.title }}" 
-               width="600" height="600">
+          <img 
+            class="product-gallery-image" 
+            src="{{ image | image_url: width: 600, height: 600 }}" 
+            alt="{{ product.title }}" 
+            width="600" 
+            height="600"
+          >
         {% endfor %}
       </div>
     {% else %}
-      <img class="product-image" 
-           src="{{ product.featured_image | image_url: width: 600, height: 600 }}" 
-           alt="{{ product.title }}" 
-           width="600" height="600">
+      <img 
+        class="product-image" 
+        src="{{ product.featured_image | image_url: width: 600, height: 600 }}" 
+        alt="{{ product.title }}" 
+        width="600" 
+        height="600"
+      >
     {% endif %}
   </div>
 
   <!-- Product Details -->
   <div class="product-details">
     <h1 class="product-title">{{ product.title }}</h1>
+
+    <p class="product-price">
+      {{ product.price | money }}
+    </p>
+
     <div class="product-description">
       {{ product.description }}
     </div>
-    <p class="product-price">{{ product.price | money }}</p>
 
     {% assign current_variant = product.selected_or_first_available_variant %}
+
     {% if product.available %}
-
       {% form 'product', product, class: 'product-form' %}
-   
-        <label for="quantity">Quantity</label>
-        <input type="number" id="quantity" name="quantity" value="1" min="1">
 
-         <!-- Size Dropdown -->
-    {% if product.options_with_values.size > 0 %}
-      {% for option in product.options_with_values %}
-        {% if option.name == "Size" %}
-          <label for="product-variant">{{ option.name }}</label>
-          <select name="id" id="product-variant">
-            {% for value in option.values %}
-              {% assign variant_for_value = product.variants | where: "option1", value | first %}
-              {% if variant_for_value %}
-                <option value="{{ variant_for_value.id }}"
-                  {% if variant_for_value.id == current_variant.id %}selected{% endif %}>
-                  {{ value }} - {{ variant_for_value.price | money }}
-                </option>
-              {% endif %}
-            {% endfor %}
-          </select>
+        <!-- Variant Options (Size, Color, etc.) -->
+        {% if product.options_with_values.size > 0 %}
+          {% for option in product.options_with_values %}
+            <div class="product-option">
+              <label for="option-{{ forloop.index }}">
+                {{ option.name }}
+              </label>
+              <select 
+                id="option-{{ forloop.index }}" 
+                name="options[{{ option.name }}]"
+              >
+                {% for value in option.values %}
+                  <option 
+                    value="{{ value }}"
+                    {% if option.selected_value == value %}selected{% endif %}
+                  >
+                    {{ value }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          {% endfor %}
         {% endif %}
-      {% endfor %}
-    {% endif %}
 
+        <!-- Quantity -->
+       
 
         <!-- Add to Cart -->
-        <button type="submit" class="add-to-cart-btn">
+        {% form 'product', product %}
+  <!-- Quantity -->
+  <input type="number" name="quantity" value="1" min="1">
+
+  <!-- Variant Selection -->
+  <select name="id">
+    {% for variant in product.variants %}
+      <option value="{{ variant.id }}"
+        {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>
+        {{ variant.title }} - {{ variant.price | money }}
+      </option>
+    {% endfor %}
+  </select>
+
+    <button type="submit" class="add-to-cart-btn">
           Add to Cart
         </button>
 
-      {% endform %}
+{% endform %}
 
+      
+
+      {% endform %}
     {% else %}
       <p class="sold-out">Sold Out</p>
     {% endif %}

@@ -5,33 +5,53 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/cart
 {% endcomment %}
 
-<h1>{{ 'cart.title' | t }}</h1>
+<div class="cart-page">
+  <h1 class="cart-title">{{ 'cart.title' | t }}</h1>
 
-<form action="{{ routes.cart_url }}" method="post">
-  <table>
-    {% for item in cart.items %}
-      <tr>
-        <td>
-          {% render 'image', image: item.image, url: item.url %}
-        </td>
-        <td>
-          <p>{{ item.product.title }}</p>
-          {{ 'cart.remove' | t | link_to: item.url_to_remove }}
-        </td>
-        <td>
-          <input type="text" name="updates[]" value="{{ item.quantity }}">
-          <input type="submit" value="{{ 'cart.update' | t }}">
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
+  {% if cart.item_count > 0 %}
+    <form action="{{ routes.cart_url }}" method="post" class="cart-form">
+      <div class="cart-items">
+        {% for item in cart.items %}
+          <div class="cart-item">
+            <!-- Product Info -->
+            <div class="cart-item-info">
+              {% if item.image %}
+                <img src="{{ item.image | image_url: width: 100, height: 100 }}" alt="{{ item.product.title }}" width="100" height="100">
+              {% endif %}
+              <div class="cart-item-details">
+                <p class="cart-item-title">{{ item.product.title }}</p>
+                {% if item.variant_title != blank %}
+                  <p class="cart-item-variant">{{ item.variant_title }}</p>
+                {% endif %}
+              </div>
+            </div>
 
-  <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
-</form>
+            <!-- Price -->
+            <div class="cart-item-price">{{ item.price | money }}</div>
 
-{% schema %}
-{
-  "name": "t:general.cart",
-  "settings": []
-}
-{% endschema %}
+            <!-- Quantity -->
+            <div class="cart-item-quantity">
+              <input type="number" name="updates[]" value="{{ item.quantity }}" min="1">
+            </div>
+
+            <!-- Remove -->
+            <div class="cart-item-remove">
+              {{ 'cart.remove' | t | link_to: item.url_to_remove, class: 'remove-btn' }}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="cart-summary">
+        <p class="cart-total">Total: <span>{{ cart.total_price | money }}</span></p>
+        <div class="cart-actions">
+          <input type="submit" value="{{ 'cart.update' | t }}" class="update-cart-btn">
+          <a href="/checkout" class="checkout-btn">{{ 'cart.checkout' | t }}</a>
+        </div>
+      </div>
+    </form>
+  {% else %}
+    <p class="cart-empty">Your cart is currently empty.</p>
+    <a href="/collections/all" class="continue-shopping-btn">Continue Shopping</a>
+  {% endif %}
+</div>

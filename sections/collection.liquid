@@ -19,9 +19,8 @@
   </form>
 </div>
 
-
-<div class="collection-products">
-  {% paginate collection.products by 20 %}
+{% paginate collection.products by 20 %}
+  <div class="collection-products">
     {% for product in collection.products %}
       <div class="collection-product">
         {% if product.featured_image %}
@@ -34,22 +33,24 @@
             crop: 'center'
           %}
         {% endif %}
-        <div class="collection-product__content">
-          <button class="add-to-cart-btn">Add to Bag</button>
 
-          <p>{{ product.title | escape | link_to: product.url }}</p>
+        <div class="collection-product__content">
           <p>{{ product.price | money }}</p>
+           <a href="{{ proudct.url }}" class="collection-card-title" >{{ product.title}}</a>
+          <button class="add-to-cart-btn">Add to Cart</button>
+         
+          
         </div>
-        
       </div>
+    {% endfor %}
+  </div>
 
  
-
-    {% endfor %}
-
+  <div class="pagination">
     {{ paginate | default_pagination }}
-  {% endpaginate %}
-</div>
+  </div>
+{% endpaginate %}
+
 
 <footer class="store-footer">
   <div class="footer-columns">
@@ -62,7 +63,7 @@
       <h4>Shop</h4>
       <ul>
         <li><a href="{{ routes.all_products_collection_url }}">All Products</a></li>
-        <li><a href="{{ routes.collections_url }}/womens-t-shirts">Women</a></li>
+        <li><a href="{{ routes.collections_url }}/Women">Women</a></li>
         <li><a href="{{ routes.collections_url }}/mens-t-shirts">Men</a></li>
         <li><a href="{{ routes.collections_url }}/hoodies">Hoodies</a></li>
         <li><a href="{{ routes.collections_url }}/socks">Socks</a></li>
@@ -145,10 +146,28 @@
   margin-bottom: 8px;
 }
 
+.collection-card-title {
+  font-size: 20px;
+  font-weight: 600;
+  padding: 10px 0;          /* Top & bottom padding, avoid affecting other elements */
+  color: #333;              /* Text color */
+  text-decoration: none;    /* Remove underline */
+  display: block;           /* Makes sure it takes full width and avoids overlap */
+  white-space: normal;      /* Wrap long titles */
+  overflow: hidden;         /* Prevent spilling */
+  text-overflow: ellipsis;  /* Show ... if text is too long */
+  transition: color 0.3s ease;
+}
+
+.collection-card-title:hover {
+  color: #517e31ff;           /* Optional: hover effect */
+}
+
 .collection-product__content p:last-child {
   font-size: 14px;
   font-weight: bold;
   color: #333;
+  margin-top: 8px;
 }
 
 .collection-products {
@@ -160,7 +179,7 @@
 
 
 .add-to-cart-btn {
-  margin-top: 10px;
+  margin-top: 30px;
   background: #363636ff;
   color: #fff;
   border: none;
@@ -195,6 +214,38 @@
   padding: 6px 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
+}
+
+.pagination {
+  display: flex;
+  width: 20%;
+  height: auto;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.pagination a,
+.pagination span {
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s ease;
+  font-weight: 800;
+}
+
+.pagination a:hover {
+  background: #000;
+  color: #fff;
+}
+
+.pagination .current {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+  font-weight: bold;
 }
 
 
@@ -272,7 +323,7 @@
   padding: 10px 18px;
   border-radius: 30px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: 0.3s ease;
 }
 
 .footer-newsletter button:hover {
