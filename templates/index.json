@@ -12,6 +12,10 @@
     "main": {
       "type": "hero"
     },
+    "new-arrivals": {
+      "type": "new-arrivals",
+      "settings": {}
+    },
     "featured-collection": {
       "type": "collection"
     },
@@ -19,5 +23,5 @@
       "type": "footer"
     }
   },
-  "order": ["main", "featured-collection", "footer"]
+  "order": ["main", "new-arrivals", "featured-collection", "footer"]
 }
