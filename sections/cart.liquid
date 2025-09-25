@@ -9,47 +9,101 @@
   <h1 class="cart-title">{{ 'cart.title' | t }}</h1>
 
   {% if cart.item_count > 0 %}
-    <form action="{{ routes.cart_url }}" method="post" class="cart-form">
-      <div class="cart-items">
-        {% for item in cart.items %}
-          <div class="cart-item">
-            <!-- Product Info -->
-            <div class="cart-item-info">
-              {% if item.image %}
-                <img src="{{ item.image | image_url: width: 100, height: 100 }}" alt="{{ item.product.title }}" width="100" height="100">
-              {% endif %}
-              <div class="cart-item-details">
-                <p class="cart-item-title">{{ item.product.title }}</p>
-                {% if item.variant_title != blank %}
-                  <p class="cart-item-variant">{{ item.variant_title }}</p>
+    <form action="{{ routes.cart_url }}" method="post" class="cart-form cart-layout">
+      <div class="cart-left">
+        <div class="cart-items">
+          {% for item in cart.items %}
+            <div class="cart-item">
+              <div class="cart-item-media">
+                {% if item.image %}
+                  <img src="{{ item.image | image_url: width: 180, height: 180 }}" alt="{{ item.product.title }}" width="180" height="180" loading="lazy">
                 {% endif %}
               </div>
+              <div class="cart-item-main">
+                <div class="cart-item-header">
+                  <p class="cart-item-title">{{ item.product.title }}</p>
+                  {% if item.variant_title != blank %}
+                    <p class="cart-item-variant">{{ item.variant_title }}</p>
+                  {% endif %}
+                  {% if item.vendor %}
+                    <p class="cart-item-vendor">by {{ item.vendor }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="cart-item-controls">
+                  <div class="cart-qty-control" data-key="{{ item.key }}">
+                    <button type="button" class="qty-btn" aria-label="Decrease quantity" data-action="decrement">−</button>
+                    <input class="qty-input" type="number" name="updates[{{ item.key }}]" value="{{ item.quantity }}" min="1" aria-label="Quantity">
+                    <button type="button" class="qty-btn" aria-label="Increase quantity" data-action="increment">+</button>
+                  </div>
+                  <div class="cart-item-actions">
+                    {{ 'cart.remove' | t | link_to: item.url_to_remove, class: 'remove-btn' }}
+                  </div>
+                </div>
+              </div>
+              <div class="cart-item-pricing">
+                {% if item.original_price > item.final_price %}
+                  <p class="cart-price-current">{{ item.final_price | money }}</p>
+                  <p class="cart-price-was">{{ item.original_price | money }}</p>
+                  <p class="cart-price-saving">Save {{ item.total_discount | money }}</p>
+                {% else %}
+                  <p class="cart-price-current">{{ item.final_price | money }}</p>
+                {% endif %}
+                <p class="cart-line-total">Total: {{ item.line_price | money }}</p>
+              </div>
             </div>
-
-            <!-- Price -->
-            <div class="cart-item-price">{{ item.price | money }}</div>
-
-            <!-- Quantity -->
-            <div class="cart-item-quantity">
-              <input type="number" name="updates[]" value="{{ item.quantity }}" min="1">
-            </div>
-
-            <!-- Remove -->
-            <div class="cart-item-remove">
-              {{ 'cart.remove' | t | link_to: item.url_to_remove, class: 'remove-btn' }}
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-
-      <div class="cart-summary">
-        <p class="cart-total">Total: <span>{{ cart.total_price | money }}</span></p>
-        <div class="cart-actions">
-          <input type="submit" value="{{ 'cart.update' | t }}" class="update-cart-btn">
-          <a href="/checkout" class="checkout-btn">{{ 'cart.checkout' | t }}</a>
+          {% endfor %}
         </div>
       </div>
+
+      <aside class="cart-right">
+        <div class="cart-summary-card">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>{{ cart.items_subtotal_price | money }}</span>
+          </div>
+          {% if cart.total_discounts > 0 %}
+          <div class="summary-row savings">
+            <span>Savings</span>
+            <span>-{{ cart.total_discounts | money }}</span>
+          </div>
+          {% endif %}
+          <div class="summary-row note">Taxes and shipping calculated at checkout.</div>
+
+          <div class="summary-actions">
+            <input type="submit" name="update" value="{{ 'cart.update' | t }}" class="update-cart-btn">
+            <a href="/checkout" class="checkout-btn">{{ 'cart.checkout' | t }}</a>
+          </div>
+        </div>
+      </aside>
     </form>
+
+    <script>
+      (function() {
+        var form = document.querySelector('.cart-form');
+        if (!form) return;
+        var qtyControls = form.querySelectorAll('.cart-qty-control');
+        qtyControls.forEach(function(control){
+          var input = control.querySelector('.qty-input');
+          var dec = control.querySelector('[data-action="decrement"]');
+          var inc = control.querySelector('[data-action="increment"]');
+          function submitSoon(){
+            if (form.dataset.submitting) return;
+            form.dataset.submitting = '1';
+            setTimeout(function(){ form.submit(); }, 200);
+          }
+          if (dec) dec.addEventListener('click', function(){
+            var val = parseInt(input.value || '1', 10);
+            if (val > 1) { input.value = val - 1; submitSoon(); }
+          });
+          if (inc) inc.addEventListener('click', function(){
+            var val = parseInt(input.value || '1', 10);
+            input.value = val + 1; submitSoon();
+          });
+          input.addEventListener('change', submitSoon);
+        });
+      })();
+    </script>
   {% else %}
     <p class="cart-empty">Your cart is currently empty.</p>
     <a href="/collections/all" class="continue-shopping-btn">Continue Shopping</a>
