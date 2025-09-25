@@ -49,7 +49,7 @@
                 {% else %}
                   <p class="cart-price-current">{{ item.final_price | money }}</p>
                 {% endif %}
-                <p class="cart-line-total">Total: {{ item.line_price | money }}</p>
+                
               </div>
             </div>
           {% endfor %}
@@ -71,7 +71,7 @@
           <div class="summary-row note">Taxes and shipping calculated at checkout.</div>
 
           <div class="summary-actions">
-            <input type="submit" name="update" value="{{ 'cart.update' | t }}" class="update-cart-btn">
+
             <a href="/checkout" class="checkout-btn">{{ 'cart.checkout' | t }}</a>
           </div>
         </div>
