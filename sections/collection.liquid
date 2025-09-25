@@ -5,6 +5,8 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
+<a id="collections"></a>
+
 <div class="collection-sort">
   <form method="get" action="">
     <label for="sort-by">Sort by:</label>
@@ -36,7 +38,7 @@
 
         <div class="collection-product__content">
           <p>{{ product.price | money }}</p>
-           <a href="{{ proudct.url }}" class="collection-card-title" >{{ product.title}}</a>
+           <a href="{{ product.url }}" class="collection-card-title" >{{ product.title}}</a>
           <button class="add-to-cart-btn">Add to Cart</button>
          
           

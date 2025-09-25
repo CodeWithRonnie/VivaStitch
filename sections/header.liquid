@@ -9,7 +9,7 @@
     <a href="{{ routes.collections_url }}/hoodies-1" class="{% if collection.handle == 'Hoodies' %}active{% endif %}">Hoodies</a>
   </nav>
 
-  <h1 class="storeLogo">VivaStitch</h1>
+  <h1 class="storeLogo"><a href="{{ routes.root_url }}">VivaStitch</a></h1>
  
   <div class="header-right">
     <a href="{{ routes.account_url }}">Account</a>
@@ -62,6 +62,8 @@
   color: #000; 
   margin-right: 35%;
 }
+
+.storeLogo a { text-decoration: none; color: inherit; }
 
 
 .collection-nav {
