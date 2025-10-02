@@ -1,0 +1,80 @@
+<section class="brands-section full-width">
+  <div class="brands-container">
+    <div class="brands-track">
+      <div class="brand"><img src="{{ 'nike.png' | asset_url }}" alt="Nike"></div>
+      <div class="brand"><img src="{{ 'adidas.png' | asset_url }}" alt="Adidas"></div>
+      <div class="brand"><img src="{{ 'stevemadden.png' | asset_url }}" alt="Steve Madden"></div>
+      <div class="brand"><img src="{{ 'puma.png' | asset_url }}" alt="Puma"></div>
+      <div class="brand"><img src="{{ 'babyboo.png' | asset_url }}" alt="BabyBoo"></div>
+      <div class="brand"><img src="{{ 'mango.png' | asset_url }}" alt="Mango"></div>
+      <div class="brand"><img src="{{ 'gstar.png' | asset_url }}" alt="G-Star"></div>
+      <div class="brand"><img src="{{ 'h&m.png' | asset_url }}" alt="H&M"></div>
+      <div class="brand"><img src="{{ 'cotton-on.png' | asset_url }}" alt="Cotton-On"></div>
+      <div class="brand"><img src="{{ 'new-balance.png' | asset_url }}" alt="New Balance"></div>
+
+      <!-- Duplicate for seamless scroll -->
+      <div class="brand"><img src="{{ 'nike.png' | asset_url }}" alt="Nike"></div>
+      <div class="brand"><img src="{{ 'adidas.png' | asset_url }}" alt="Adidas"></div>
+      <div class="brand"><img src="{{ 'stevemadden.png' | asset_url }}" alt="Steve Madden"></div>
+      <div class="brand"><img src="{{ 'puma.png' | asset_url }}" alt="Puma"></div>
+      <div class="brand"><img src="{{ 'babyboo.png' | asset_url }}" alt="BabyBoo"></div>
+      <div class="brand"><img src="{{ 'mango.png' | asset_url }}" alt="Mango"></div>
+      <div class="brand"><img src="{{ 'gstar.png' | asset_url }}" alt="G-Star"></div>
+      <div class="brand"><img src="{{ 'h&m.png' | asset_url }}" alt="H&M"></div>
+      <div class="brand"><img src="{{ 'cotton-on.png' | asset_url }}" alt="Cotton-On"></div>
+      <div class="brand"><img src="{{ 'new-balance.png' | asset_url }}" alt="New Balance"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+.brands-section {
+  background-color: #f7f7f7; 
+  padding: 40px 0;
+  overflow: hidden;
+}
+
+.brands-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.brands-track {
+  display: flex;
+  gap: 60px;
+  animation: scroll-left 50s linear infinite;
+}
+
+.brand img {
+  height: 100%;
+  width:200%;
+  object-fit: contain;
+  filter: grayscale(0.2);
+  transition: transform 0.3s, filter 0.3s;
+}
+
+.brand img:hover {
+  transform: scale(1.2);
+  filter: grayscale(0);
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .brands-track {
+    gap: 30px;
+  }
+  .brand img {
+    height: 40px;
+  }
+}
+</style>
