@@ -1,11 +1,12 @@
 {% comment %}
   This section is used in the collection template to render collection page
   listing all products within a collection.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
+  Pagination will only appear on collection pages.
 {% endcomment %}
 
 <a id="collections"></a>
+
+{% if collection %}
 
 <div class="collection-sort">
   <form method="get" action="">
@@ -49,6 +50,8 @@
     {{ paginate | default_pagination }}
   </div>
 {% endpaginate %}
+
+{% endif %}
 
 {% stylesheet %}
 body {
@@ -199,3 +202,4 @@ body {
   "settings": []
 }
 {% endschema %}
+

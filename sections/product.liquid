@@ -1,158 +1,219 @@
-<div class="product-page">
-
-  <!-- Product Images -->
-  <div class="product-images">
-    {% if product.images.size > 1 %}
-      <div class="image-gallery">
-        {% for image in product.images %}
-          <img 
-            class="product-gallery-image" 
-            src="{{ image | image_url: width: 600, height: 600 }}" 
-            alt="{{ product.title }}" 
-            width="600" 
-            height="600"
-          >
-        {% endfor %}
+<div class="product-page-container">
+  <div class="product-page">
+    <!-- Product Images -->
+    <div class="product-images">
+      <div class="main-image">
+        <img 
+          class="product-image" 
+          src="{{ product.featured_image | image_url: width: 600, height: 600 }}" 
+          alt="{{ product.title }}" 
+        >
       </div>
-    {% else %}
-      <img 
-        class="product-image" 
-        src="{{ product.featured_image | image_url: width: 600, height: 600 }}" 
-        alt="{{ product.title }}" 
-        width="600" 
-        height="600"
-      >
-    {% endif %}
-  </div>
-
-  <!-- Product Details -->
-  <div class="product-details">
-    <h1 class="product-title">{{ product.title }}</h1>
-
-    <p class="product-price">
-      {{ product.price | money }}
-    </p>
-
-    <div class="product-description">
-      {{ product.description }}
+      {% if product.images.size > 1 %}
+        <div class="image-gallery">
+          {% for image in product.images %}
+            <img 
+              class="product-gallery-image" 
+              src="{{ image | image_url: width: 100, height: 100 }}" 
+              alt="{{ product.title }}" 
+              onclick="changeMainImage('{{ image | image_url: width: 600, height: 600 }}')"
+            >
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
 
-    {% assign current_variant = product.selected_or_first_available_variant %}
+    <!-- Product Details -->
+    <div class="product-details">
+      <h1 class="product-title">{{ product.title }}</h1>
+      <p class="product-price" id="product-price">{{ product.price | money }}</p>
+      <div class="product-description">{{ product.description }}</div>
 
-    {% if product.available %}
-      {% form 'product', product, class: 'product-form' %}
+      {% if product.available %}
+        {% form 'product', product, class: 'product-form', id: 'product-form' %}
+          <!-- Variant Options -->
+          {% if product.options_with_values.size > 0 %}
+            {% for option in product.options_with_values %}
+              <div class="product-option">
+                <label for="option-{{ forloop.index }}">{{ option.name }}</label>
+                <select id="option-{{ forloop.index }}" name="options[{{ option.name }}]" class="product-option-select">
+                  {% for value in option.values %}
+                    <option 
+                      value="{{ value }}"
+                      {% if option.selected_value == value %}selected{% endif %}
+                    >
+                      {{ value }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endfor %}
+          {% endif %}
 
-        <!-- Variant Options (Size, Color, etc.) -->
-        {% if product.options_with_values.size > 0 %}
-          {% for option in product.options_with_values %}
-            <div class="product-option">
-              <label for="option-{{ forloop.index }}">
-                {{ option.name }}
-              </label>
-              <select 
-                id="option-{{ forloop.index }}" 
-                name="options[{{ option.name }}]"
-              >
-                {% for value in option.values %}
-                  <option 
-                    value="{{ value }}"
-                    {% if option.selected_value == value %}selected{% endif %}
-                  >
-                    {{ value }}
-                  </option>
-                {% endfor %}
-              </select>
-            </div>
-          {% endfor %}
-        {% endif %}
+          <!-- Quantity -->
+          <div class="product-quantity">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" value="1" min="1">
+          </div>
 
-        <!-- Quantity -->
-       
+          <!-- Variant ID (required for Shopify) -->
+          <select name="id" id="product-variant-id" style="display:none;">
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}" data-price="{{ variant.price | money }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>
+                {{ variant.title }}
+              </option>
+            {% endfor %}
+          </select>
 
-        <!-- Add to Cart -->
-        {% form 'product', product %}
-  <!-- Quantity -->
-  <input type="number" name="quantity" value="1" min="1">
+          <!-- Add to Cart -->
+          <button type="submit" class="add-to-cart-btn">Add to Cart</button>
 
-  <!-- Variant Selection -->
-  <select name="id">
-    {% for variant in product.variants %}
-      <option value="{{ variant.id }}"
-        {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>
-        {{ variant.title }} - {{ variant.price | money }}
-      </option>
-    {% endfor %}
-  </select>
+        {% endform %}
+      {% else %}
+        <p class="sold-out">Sold Out</p>
+      {% endif %}
+    </div>
 
-    <button type="submit" class="add-to-cart-btn">
-          Add to Cart
-        </button>
-
-{% endform %}
-
-      
-
-      {% endform %}
-    {% else %}
-      <p class="sold-out">Sold Out</p>
-    {% endif %}
+    <!-- Additional Information -->
+    <div class="product-info">
+      <h2>Additional Information</h2>
+      <ul>
+        <li><strong>Material:</strong> 100% Cotton</li>
+        <li><strong>Care Instructions:</strong> Machine wash cold</li>
+        <li><strong>Delivery:</strong> Free shipping on orders over R500</li>
+      </ul>
+    </div>
   </div>
 </div>
 
-
-
-{% comment %}
-  This section is used in the product template to render product page with
-  media, content, and add-to-cart form.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/product
-{% endcomment %}
-
-{% comment %}
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
-</div>
-
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
-
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
-
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
-
-    <input type="text" name="quantity" min="1" value="1">
-
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
-</div>
-
-{% schema %}
-{
-  "name": "t:general.product",
-  "settings": [],
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  }
+{% stylesheet %}
+.product-page-container {
+  display: flex;
+  justify-content: center; /* center horizontally */
+  padding: 40px 20px; /* optional spacing */
 }
-{% endschema %}
 
-{% endcomment %}
+.product-page {
+  display: flex;
+  gap: 40px;
+  max-width: 1200px; /* limit width */
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.product-images {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.main-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.image-gallery {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.product-gallery-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: transform 0.3s ease;
+}
+
+.product-gallery-image:hover {
+  transform: scale(1.1);
+}
+
+.product-details {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.product-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+.product-price {
+  font-size: 24px;
+  color: #e60000;
+}
+
+.product-description {
+  font-size: 16px;
+  color: #666;
+}
+
+.product-option,
+.product-quantity {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.product-option label,
+.product-quantity label {
+  font-size: 14px;
+  color: #333;
+}
+
+.product-option select,
+.product-quantity input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.add-to-cart-btn {
+  padding: 12px;
+  background-color: #e60000;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #cc0000;
+}
+
+.sold-out {
+  color: #999;
+  font-size: 18px;
+}
+
+.product-info {
+  margin-top: 40px;
+}
+
+.product-info h2 {
+  font-size: 22px;
+  color: #333;
+}
+
+.product-info ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.product-info li {
+  font-size: 16px;
+  color: #666;
+}
+{% endstylesheet %}
