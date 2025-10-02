@@ -1,56 +1,171 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
+<footer class="store-footer">
+  <div class="footer-columns">
+    <div class="footer-logo">
+      <h2>VivaStitch</h2>
+      <p>Where style meets comfort ✨</p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="{{ routes.all_products_collection_url }}">All Products</a></li>
+        <li><a href="{{ routes.collections_url }}/Women">Women</a></li>
+        <li><a href="{{ routes.collections_url }}/mens-t-shirts">Men</a></li>
+        <li><a href="{{ routes.collections_url }}/hoodies">Hoodies</a></li>
+        <li><a href="{{ routes.collections_url }}/socks">Socks</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-links">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="/pages/about">About Us</a></li>
+        <li><a href="/pages/contact">Contact</a></li>
+        <li><a href="/policies/shipping-policy">Shipping</a></li>
+        <li><a href="/policies/refund-policy">Returns</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-newsletter">
+      <h4>Join the Family</h4>
+      <form>
+        <input type="email" placeholder="Enter your email" required />
+        <button type="submit">Subscribe</button>
+      </form>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
   </div>
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
-
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
-    {% endif %}
-  </div>
+  <p class="footer-bottom">© {{ 'now' | date: "%Y" }} VivaStitch — Made with ❤️ for fashion lovers.</p>
 </footer>
 
 {% stylesheet %}
-  footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
+.store-footer {
+  background-color: #405f42ff; /* Olive green */
+  opacity: 1.5;
+  color: #fff;
+  padding: 40px 20px;
+  font-family: sans-serif;
+}
+
+.store-footer a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.store-footer a:hover {
+  color: #f0f0f0;
+}
+
+.footer-columns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-logo h2 {
+  margin: 0 0 5px;
+}
+
+.footer-logo p {
+  margin: 0;
+}
+
+.footer-links h4 {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 6px;
+}
+
+.footer-newsletter h4 {
+  margin-bottom: 10px;
+}
+
+.footer-newsletter form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.footer-newsletter input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  flex: 1 1 200px;
+}
+
+.footer-newsletter button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #fff;
+  color: #808000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.footer-newsletter button:hover {
+  background-color: #f0f0f0;
+}
+
+.footer-social a {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .footer-columns {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
   }
-  footer a {
-    text-decoration: none;
-    color: var(--color-foreground);
+
+  .footer-newsletter form {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
   }
-  footer .footer__links,
-  footer .footer__payment {
-    display: flex;
-    gap: 1rem;
+
+  .footer-newsletter input {
+    width: 100%;
   }
+}
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "t:general.footer",
-  "settings": [
+  "name": "VivaStitch Footer",
+  "settings": [],
+  "presets": [
     {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "t:labels.show_payment_icons",
-      "default": true
+      "name": "Default Footer",
+      "category": "Footer"
     }
   ]
 }
