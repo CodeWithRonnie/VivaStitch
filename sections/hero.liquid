@@ -3,7 +3,7 @@
 {% endcomment %}
 
 <section class="hero full-width">
-  <div class="hero__inner" style="--hero-overlay: {{ section.settings.overlay_opacity | default: 0.5 }}; background-image: url('{% if section.settings.bg_image %}{{ section.settings.bg_image | image_url: width: 2400 }}{% elsif section.settings.image %}{{ section.settings.image | image_url: width: 2400 }}{% else %}{{ 'Viva-runway.png' | asset_url }}{% endif %}'); background-size: cover; background-position: center;">
+  <div class="hero__inner" style="--hero-overlay: {{ section.settings.overlay_opacity | default: 0.5 }}; background-image: url('{% if section.settings.bg_image %}{{ section.settings.bg_image | image_url: width: 2200 }}{% elsif section.settings.image %}{{ section.settings.image | image_url: width: 2200 }}{% else %}{{ 'VivaStitch.png' | asset_url }}{% endif %}'); background-size: cover; background-position: center;">
     <div class="hero__overlay"></div>
     <div class="hero__center">
       <a class="btn btn--secondary" href="{{ routes.collections_url }}#collections">View collection</a>

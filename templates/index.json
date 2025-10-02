@@ -16,6 +16,11 @@
       "type": "new-arrivals",
       "settings": {}
     },
+    "trending-items": {
+
+      "type": "trending-items",
+      "settings": {}
+    },
     "featured-collection": {
       "type": "collection"
     },
@@ -23,5 +28,5 @@
       "type": "footer"
     }
   },
-  "order": ["main", "new-arrivals", "featured-collection", "footer"]
+  "order": ["main", "new-arrivals", "trending-items", "featured-collection", "footer"]
 }

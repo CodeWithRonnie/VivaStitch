@@ -1,0 +1,152 @@
+{% comment %}
+  Trending Items Section
+  - Styled like New Arrivals with scroll arrows
+  - Olive green background
+{% endcomment %}
+
+{% assign trending_collection = collections['trending'] %}
+
+{% if trending_collection and trending_collection.products.size > 0 %}
+<section class="trending-items full-width" data-section-id="{{ section.id }}">
+  <h2>Trending Now</h2>
+
+  <div class="trending__scroll-wrapper">
+    <button class="trending__nav trending__nav--prev" aria-label="Previous">&larr;</button>
+    <div class="trending__scroll">
+      {% for product in trending_collection.products limit: section.settings.limit %}
+        <a class="trending-card" href="{{ product.url }}">
+          {% if product.featured_image %}
+            <img class="trending-card__img" src="{{ product.featured_image | image_url: width: 600, height: 750, crop: 'center' }}" alt="{{ product.title | escape }}">
+          {% endif %}
+          <div class="trending-card__meta">
+            <p class="trending-card__title">{{ product.title }}</p>
+            <p class="trending-card__price">{{ product.price | money }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+    <button class="trending__nav trending__nav--next" aria-label="Next">&rarr;</button>
+  </div>
+</section>
+{% endif %}
+
+<style>
+.trending-items {
+  background-color: #aaaaa1ff; /* Olive green */
+  padding: 40px 20px;
+}
+
+.trending-items h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  color: #3b3939ff;
+}
+
+.trending__scroll-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.trending__scroll {
+  display: flex;
+  gap: 20px;
+  padding: 10px 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.trending__scroll::-webkit-scrollbar { display: none; }
+
+.trending-card {
+  flex: 0 0 auto;
+  width: 450px;
+  text-align: center;
+  scroll-snap-align: start;
+  transition: transform 0.2s ease;
+}
+
+.trending-card:hover { transform: scale(1.05); }
+
+.trending-card__img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.trending-card__title {
+  font-size: 14px;
+  margin-top: 8px;
+  color: #3b3939ff;
+}
+
+.trending-card__price {
+  font-size: 13px;
+  color: #3b3939ff;
+}
+
+/* Arrows */
+.trending__nav {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+  z-index: 5;
+}
+
+.trending__nav:hover {
+  background: rgba(0,0,0,0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.trending__nav--prev { left: 5px; }
+.trending__nav--next { right: 5px; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var root = document.querySelector('[data-section-id="{{ section.id }}"]');
+
+  var navButtons = root.querySelectorAll('.trending__nav');
+  navButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var wrapper = btn.closest('.trending__scroll-wrapper');
+      var scroller = wrapper.querySelector('.trending__scroll');
+      var cardWidth = scroller.querySelector('.trending-card')?.offsetWidth || 220;
+      var gap = parseInt(window.getComputedStyle(scroller).gap) || 20;
+      var scrollAmount = cardWidth + gap;
+
+      if (btn.classList.contains('trending__nav--next')) {
+        scroller.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      } else {
+        scroller.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      }
+    });
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Trending Items",
+  "settings": [
+    {
+      "type": "number",
+      "id": "limit",
+      "label": "Products to show",
+      "default": 10
+    }
+  ],
+  "presets": [
+    { "name": "Trending Items" }
+  ]
+}
+{% endschema %}
