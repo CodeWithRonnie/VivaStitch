@@ -9,12 +9,12 @@
       <button class="na__tab" data-target="accessories">Accessories</button>
     </div>
 
-    <!-- Men -->
+    <!-- Men (mapped to Shirts) -->
     <div class="na__panel active" data-panel="men">
       <div class="na__scroll-wrapper">
         <button class="na__nav na__nav--prev" aria-label="Previous">&larr;</button>
         <div class="na__scroll">
-          {% for product in collections['men'].products limit: section.settings.limit %}
+          {% for product in collections['Shirts'].products limit: section.settings.limit %}
             <a class="na-card" href="{{ product.url }}">
               {% if product.featured_image %}
                 <img class="na-card__img" src="{{ product.featured_image | image_url: width: 600, height: 750, crop: 'center' }}" alt="{{ product.title | escape }}">
@@ -30,12 +30,12 @@
       </div>
     </div>
 
-    <!-- Women -->
+    <!-- Women (mapped to Socks) -->
     <div class="na__panel" data-panel="women">
       <div class="na__scroll-wrapper">
         <button class="na__nav na__nav--prev" aria-label="Previous">&larr;</button>
         <div class="na__scroll">
-          {% for product in collections['women'].products limit: section.settings.limit %}
+          {% for product in collections['Socks'].products limit: section.settings.limit %}
             <a class="na-card" href="{{ product.url }}">
               {% if product.featured_image %}
                 <img class="na-card__img" src="{{ product.featured_image | image_url: width: 600, height: 750, crop: 'center' }}" alt="{{ product.title | escape }}">
@@ -51,12 +51,12 @@
       </div>
     </div>
 
-    <!-- Accessories -->
+    <!-- Accessories (mapped to hoodies-1) -->
     <div class="na__panel" data-panel="accessories">
       <div class="na__scroll-wrapper">
         <button class="na__nav na__nav--prev" aria-label="Previous">&larr;</button>
         <div class="na__scroll">
-          {% for product in collections['accessories'].products limit: section.settings.limit %}
+          {% for product in collections['hoodies-1'].products limit: section.settings.limit %}
             <a class="na-card" href="{{ product.url }}">
               {% if product.featured_image %}
                 <img class="na-card__img" src="{{ product.featured_image | image_url: width: 600, height: 750, crop: 'center' }}" alt="{{ product.title | escape }}">

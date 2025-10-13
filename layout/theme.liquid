@@ -25,6 +25,15 @@
   
 
     <script src="{{ 'drawer.js' | asset_url }}" defer></script>
+    <script>
+      (function(){
+        var header = document.getElementById('site-header');
+        if (!header) return;
+        function onScroll(){ if (window.scrollY > 10) header.classList.add('scrolled'); else header.classList.remove('scrolled'); }
+        document.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      })();
+    </script>
 
   </body>
 </html>

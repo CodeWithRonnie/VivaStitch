@@ -1,0 +1,29 @@
+<section class="announcement-bar full-width">
+  <div class="ab__inner">
+    <p class="ab__text">{{ section.settings.text | default: 'Free shipping on orders over $100' }}</p>
+    {% if section.settings.link_url %}
+      <a class="ab__link" href="{{ section.settings.link_url }}">{{ section.settings.link_label | default: 'Shop now' }}</a>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .announcement-bar { background: linear-gradient(90deg, var(--brand-600), var(--accent-600)); color: #fff; }
+  .ab__inner { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 10px 16px; }
+  .ab__text { margin: 0; font-weight: 800; letter-spacing: .3px; text-transform: uppercase; }
+  .ab__link { color: #fff; text-decoration: underline; font-weight: 800; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Text", "default": "Free shipping on orders over $100" },
+    { "type": "url", "id": "link_url", "label": "Link URL" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Shop now" }
+  ],
+  "presets": [ { "name": "Announcement bar" } ]
+}
+{% endschema %}
+
+

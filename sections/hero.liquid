@@ -3,16 +3,22 @@
 {% endcomment %}
 
 <section class="hero full-width">
-  <div class="hero__inner" style="--hero-overlay: {{ section.settings.overlay_opacity | default: 0.5 }}; background-image: url('{% if section.settings.bg_image %}{{ section.settings.bg_image | image_url: width: 2200 }}{% elsif section.settings.image %}{{ section.settings.image | image_url: width: 2200 }}{% else %}{{ 'VivaStitch.png' | asset_url }}{% endif %}'); background-size: cover; background-position: center;">
+  <div class="hero__inner" style="--hero-overlay: {{ section.settings.overlay_opacity | default: 0.35 }}; background-image: url('{% if section.settings.bg_image %}{{ section.settings.bg_image | image_url: width: 3200 }}{% elsif section.settings.image %}{{ section.settings.image | image_url: width: 3200 }}{% else %}{{ 'Viva-runway.png' | asset_url }}{% endif %}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
     <div class="hero__overlay"></div>
-    <div class="hero__center">
-      <a class="btn btn--secondary" href="{{ routes.collections_url }}#collections">View collection</a>
+    {% if section.settings.show_text %}
+    <div class="hero__center hero__center--stack">
+      <div class="hero__stack">
+        {% if section.settings.heading != blank %}
+          <h1 class="hero__title">{{ section.settings.heading }}</h1>
+        {% endif %}
+        {% if section.settings.subheading != blank %}
+          <p class="hero__subtitle">{{ section.settings.subheading }}</p>
+        {% endif %}
+        {% if section.settings.primary_link != blank and section.settings.primary_label != blank %}
+          <a class="btn btn--secondary btn--hero" href="{{ section.settings.primary_link }}">{{ section.settings.primary_label }}</a>
+        {% endif %}
+      </div>
     </div>
-  </div>
-  <div class="hero__below">
-    <h1 class="hero__title">{{ section.settings.heading | default: 'Style that speaks. Comfort that lasts.' }}</h1>
-    {% if section.settings.subheading != blank %}
-      <p class="hero__subtitle">{{ section.settings.subheading }}</p>
     {% endif %}
   </div>
   <div class="hero__decor"></div>
@@ -28,6 +34,8 @@
                 radial-gradient(900px 500px at 90% 10%, rgba(249,115,22,.10), transparent),
                 linear-gradient(180deg, #ffffff, #f9fafb);
     padding: 0;
+    margin-top: -80px; /* pull hero under fixed header */
+    padding-top: 80px; /* preserve content spacing */
     overflow: hidden;
   }
 
@@ -46,6 +54,8 @@
 
   .hero__overlay { position: absolute; inset: 0; background: rgba(0,0,0,var(--hero-overlay, .5)); }
   .hero__center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 1; }
+  .hero__center--stack { text-align: center; }
+  .hero__stack { display: grid; gap: 10px; padding: 0 16px; }
   .hero__center .btn {
     font-size: 1.2rem;
     padding: 18px 36px;
@@ -97,6 +107,7 @@
 
   .btn--secondary { background: linear-gradient(90deg, var(--accent-500), var(--accent-600)); color: #fff; }
   .btn--secondary:hover { transform: translateY(-1px); filter: brightness(1.03); }
+  .btn--hero { border-radius: 0; border: 2px solid rgba(255,255,255,.6); background: rgba(255,255,255,.1); }
 
 
   .hero__decor {
@@ -113,7 +124,7 @@
     background: radial-gradient(40% 40% at 50% 50%, rgba(249,115,22,.15), transparent 70%);
   }
 
-  @media (max-width: 1100px) { .hero__inner { grid-template-columns: 1fr; } }
+  @media (max-width: 1100px) { .hero__inner { grid-template-columns: 1fr; min-height: 70vh; background-position: center top; } }
 {% endstylesheet %}
 
 {% schema %}
@@ -128,7 +139,8 @@
     { "type": "url", "id": "secondary_link", "label": "Secondary button link" },
     { "type": "image_picker", "id": "image", "label": "Hero image" },
     { "type": "image_picker", "id": "bg_image", "label": "Background image (full-bleed)" },
-    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 0.9, "step": 0.1, "default": 0.5, "label": "Overlay opacity" }
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 0.9, "step": 0.1, "default": 0.3, "label": "Overlay opacity" },
+    { "type": "checkbox", "id": "show_text", "label": "Show overlay text/CTA", "default": true }
   ],
   "presets": [
     { "name": "Hero", "category": "Hero" }

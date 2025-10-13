@@ -1,4 +1,4 @@
-<div class="collection-header">
+<div class="collection-header transparent" id="site-header">
 
    <button class="hamburger" onclick="toggleDrawer()">☰</button>
 
@@ -45,7 +45,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #6a816dff;
+  background-color: transparent;
   padding: 15px 30px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   z-index: 1000;
@@ -53,14 +53,16 @@
   align-items: center;
   justify-content: space-between;
   font-family: 'Poppins', sans-serif;
+  position: fixed;
 }
 
 
 .storeLogo {
+  order: 0;
   font-family: 'Brush Script MT', cursive;
-  font-size: 30px;
+  font-size: 40px;
   color: #000; 
-  margin-right: 35%;
+  margin: 0;
 }
 
 .storeLogo a { text-decoration: none; color: inherit; }
@@ -70,6 +72,8 @@
   display: flex;
   gap: 3px;
   flex-wrap: wrap; 
+  flex: 1 1 0;
+  justify-content: center;
 }
 
 .collection-nav a {
@@ -85,7 +89,7 @@
 
 .collection-nav a:hover,
 .collection-nav a.active {
-  background-color: #878686ff;
+  background-color: rgba(255,255,255,0.9);
   color: #151515ff; 
   transform: translateY(-2px);
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -95,6 +99,8 @@
 .header-right {
   display: flex;
   gap: 12px;
+  flex: 1 1 0;
+  justify-content: flex-end;
 }
 
 .header-right a {
@@ -106,10 +112,11 @@
   transition: all 0.3s ease;
 }
 
-.header-right a:hover {
-  color: #151515ff;
-  transform: translateY(-2px);
-}
+.header-right a:hover { color: #151515ff; transform: translateY(-2px); }
+.collection-header.transparent:hover { background: rgba(255,255,255,0.85); }
+.collection-header.transparent:hover .collection-nav a,
+.collection-header.transparent:hover .header-right a,
+.collection-header.transparent:hover .storeLogo a { color: #151515ff; }
 
 body {
   padding-top: 80px; 
@@ -144,6 +151,20 @@ body {
 .drawer.open {
   left: 0;
 }
+
+/* Transparent over hero */
+.collection-header.transparent { background: transparent; background-color: transparent; box-shadow: none; }
+.collection-header.transparent .collection-nav a,
+.collection-header.transparent .header-right a,
+.collection-header.transparent .storeLogo a { color: #fff; }
+.collection-header.transparent .storeLogo { color: #fff; }
+
+/* Solid on scroll */
+.collection-header.scrolled { background: #ffffff; background-color: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+.collection-header.scrolled .collection-nav a,
+.collection-header.scrolled .header-right a,
+.collection-header.scrolled .storeLogo a { color: #333; }
+.collection-header.scrolled .storeLogo { color: #333; }
 
 
 {% endstylesheet %}

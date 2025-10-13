@@ -9,13 +9,16 @@
  */
 {
   "sections": {
+    "announcement": { "type": "announcement-bar", "settings": {} },
     "main": {
       "type": "hero"
     },
+    "category-tiles": { "type": "category-tiles", "settings": {} },
     "new-arrivals": {
       "type": "new-arrivals",
       "settings": {}
     },
+    "made-for-you": { "type": "made-for-you", "settings": {} },
     "trending-items": {
 
       "type": "trending-items",
@@ -31,5 +34,5 @@
       "type": "footer"
     }
   },
-  "order": ["main", "new-arrivals", "trending-items", "brands", "featured-collection", "footer"]
+  "order": ["announcement", "main", "category-tiles", "new-arrivals", "made-for-you", "trending-items", "brands", "featured-collection", "footer"]
 }
