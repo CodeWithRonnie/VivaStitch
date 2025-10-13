@@ -1,6 +1,8 @@
-<div class="collection-header transparent" id="site-header">
+<div 
+  class="collection-header {% if template.name == 'index' %}transparent{% else %}scrolled{% endif %}" 
+  id="site-header">
 
-   <button class="hamburger" onclick="toggleDrawer()">☰</button>
+  <button class="hamburger" onclick="toggleDrawer()">☰</button>
 
   <nav class="collection-nav">
     <a href="{{ routes.all_products_collection_url }}" class="{% if collection.handle == 'all' %}active{% endif %}">All</a>
@@ -10,34 +12,51 @@
   </nav>
 
   <h1 class="storeLogo"><a href="{{ routes.root_url }}">VivaStitch</a></h1>
- 
+
   <div class="header-right">
     <a href="{{ routes.account_url }}">Account</a>
     <a href="{{ routes.cart_url }}">Bag({{ cart.item_count }})</a>
   </div>
 
   <div id="drawer" class="drawer">
-  <div class="drawer-content">
-    <button class="close-drawer" onclick="toggleDrawer()">✕</button>
+    <div class="drawer-content">
+      <button class="close-drawer" onclick="toggleDrawer()">✕</button>
 
-    <ul class="drawer-links">
-      <li><a href="{{ routes.all_products_collection_url }}">Shop All</a></li>
-      <li><a href="{{ routes.collections_url }}/Socks">Socks</a></li>
-      <li><a href="{{ routes.collections_url }}/Shirts">Shirts</a></li>
-      <li><a href="{{ routes.collections_url }}/Hoodies">Hoodies</a></li>
-      <li><a href="{{ routes.collections_url }}/gift-cards">Gift Cards</a></li>
-    </ul>
+      <ul class="drawer-links">
+        <li><a href="{{ routes.all_products_collection_url }}">Shop All</a></li>
+        <li><a href="{{ routes.collections_url }}/Socks">Socks</a></li>
+        <li><a href="{{ routes.collections_url }}/Shirts">Shirts</a></li>
+        <li><a href="{{ routes.collections_url }}/Hoodies">Hoodies</a></li>
+        <li><a href="{{ routes.collections_url }}/gift-cards">Gift Cards</a></li>
+      </ul>
 
-    <div class="drawer-bottom">
-      <a href="{{ routes.account_url }}">Account</a>
-      <a href="/pages/contact">Contact</a>
+      <div class="drawer-bottom">
+        <a href="{{ routes.account_url }}">Account</a>
+        <a href="/pages/contact">Contact</a>
+      </div>
     </div>
-
   </div>
 </div>
-</div>
 
+<script>
+  // Toggle drawer open/close
+  function toggleDrawer() {
+    document.getElementById("drawer").classList.toggle("open");
+  }
 
+  // Switch header to solid on scroll
+  window.addEventListener("scroll", function() {
+    const header = document.getElementById("site-header");
+    if (window.scrollY > 50) {
+      header.classList.add("scrolled");
+      header.classList.remove("transparent");
+    } else if (window.location.pathname === "/") {
+      // keep transparent only on homepage top
+      header.classList.add("transparent");
+      header.classList.remove("scrolled");
+    }
+  });
+</script>
 
 {% stylesheet %}
 .collection-header {
@@ -45,17 +64,14 @@
   top: 0;
   left: 0;
   width: 100%;
-  background-color: transparent;
   padding: 15px 30px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-family: 'Poppins', sans-serif;
-  position: fixed;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
-
 
 .storeLogo {
   order: 0;
@@ -65,8 +81,10 @@
   margin: 0;
 }
 
-.storeLogo a { text-decoration: none; color: inherit; }
-
+.storeLogo a {
+  text-decoration: none;
+  color: inherit;
+}
 
 .collection-nav {
   display: flex;
@@ -95,7 +113,6 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-
 .header-right {
   display: flex;
   gap: 12px;
@@ -112,18 +129,12 @@
   transition: all 0.3s ease;
 }
 
-.header-right a:hover { color: #151515ff; transform: translateY(-2px); }
-.collection-header.transparent:hover { background: rgba(255,255,255,0.85); }
-.collection-header.transparent:hover .collection-nav a,
-.collection-header.transparent:hover .header-right a,
-.collection-header.transparent:hover .storeLogo a { color: #151515ff; }
-
-body {
-  padding-top: 80px; 
-  
+.header-right a:hover {
+  color: #151515ff;
+  transform: translateY(-2px);
 }
 
-
+/* Drawer styles */
 .close-drawer {
   background: none;
   border: none;
@@ -153,31 +164,29 @@ body {
 }
 
 /* Transparent over hero */
-.collection-header.transparent { background: transparent; background-color: transparent; box-shadow: none; }
+.collection-header.transparent {
+  background: transparent;
+  box-shadow: none;
+}
 .collection-header.transparent .collection-nav a,
 .collection-header.transparent .header-right a,
-.collection-header.transparent .storeLogo a { color: #fff; }
+.collection-header.transparent .storeLogo a {
+  color: #fff;
+}
 .collection-header.transparent .storeLogo { color: #fff; }
 
-/* Solid on scroll */
-.collection-header.scrolled { background: #ffffff; background-color: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+/* Solid on scroll or non-home pages */
+.collection-header.scrolled {
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
 .collection-header.scrolled .collection-nav a,
 .collection-header.scrolled .header-right a,
-.collection-header.scrolled .storeLogo a { color: #333; }
+.collection-header.scrolled .storeLogo a {
+  color: #333;
+}
 .collection-header.scrolled .storeLogo { color: #333; }
 
-
+/* Push page content below header */
+body { padding-top: 80px; }
 {% endstylesheet %}
-
-{% schema %}
-{
-  "name": "t:general.header",
-  "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
-    }
-  ]
-}
-{% endschema %}
