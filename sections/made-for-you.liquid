@@ -1,45 +1,123 @@
 <section class="made-for-you full-width">
+
+  <!-- Background Image -->
+  <img src="{{ 'made-for-you.png' | asset_url }}" alt="" class="mf__bg-image">
+
+  <!-- Overlay for readability -->
+  <div class="overlay"></div>
+
   <div class="mf__inner">
-    <div class="mf__media">
-      {% if section.settings.image %}
-        {{ section.settings.image | image_url: width: 1400 | image_tag: class: 'mf__img', alt: section.settings.heading | escape }}
-      {% endif %}
-    </div>
     <div class="mf__content">
-      <h2 class="mf__title">{{ section.settings.heading | default: 'Made for you' }}</h2>
-      {% if section.settings.text != blank %}
-        <p class="mf__text">{{ section.settings.text }}</p>
-      {% endif %}
-      {% if section.settings.cta_url %}
-        <a class="mf__cta" href="{{ section.settings.cta_url }}">{{ section.settings.cta_label | default: 'Shop Now' }}</a>
-      {% endif %}
+      <p class="mf__eyebrow">Everyday Looks. Effortless Confidence.</p>
+      <h2 class="mf__title">{{ section.settings.heading | default: "A Style Made for You" }}</h2>
+      <p class="mf__text">
+        Discover your new go-to fits for any day of the week. Our casual collection blends comfort and edge — 
+        perfect for running errands, brunch with friends, or simply owning your look with ease.
+      </p>
+      <a class="mf__cta-text" href="/collections/all">
+        {{ section.settings.cta_label | default: "Shop Now" }}
+      </a>
     </div>
   </div>
 </section>
 
 {% stylesheet %}
-  .mf__inner { display: grid; grid-template-columns: var(--content-grid); padding: 40px 24px; }
-  .mf__inner > * { grid-column: 2; }
-  .mf__media { border-radius: 16px; overflow: hidden; }
-  .mf__img { width: 100%; height: auto; display: block; }
-  .mf__content { margin-top: 16px; display: grid; gap: 10px; }
-  .mf__title { margin: 0; font-size: 2rem; font-weight: 900; color: #0f172a; }
-  .mf__text { margin: 0; color: #374151; }
-  .mf__cta { width: fit-content; text-decoration: none; font-weight: 800; letter-spacing: .5px; padding: 12px 16px; border-radius: 10px; color: #fff; background: linear-gradient(90deg, var(--brand-600), var(--accent-600)); }
-{% endstylesheet %}
-
-{% schema %}
-{
-  "name": "Made for you",
-  "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Made for you" },
-    { "type": "textarea", "id": "text", "label": "Text", "default": "Elevate your wardrobe with thoughtful fits and sustainable materials." },
-    { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "url", "id": "cta_url", "label": "CTA URL" },
-    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop Now" }
-  ],
-  "presets": [ { "name": "Made for you" } ]
+.made-for-you {
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  min-height: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding: 120px 24px;
 }
-{% endschema %}
 
+.made-for-you .mf__bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* keeps aspect ratio, avoids stretching */
+  object-position: top center; /* ensures the model’s head is visible */
+  z-index: 0;
+}
 
+.made-for-you .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1;
+}
+
+.mf__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  margin-right: 40px; /* moves content slightly left from edge */
+}
+
+.mf__content {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-left: -200px;
+  align-items: center;
+}
+
+.mf__eyebrow {
+  color: #f3f4f6;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.mf__title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.mf__text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 90%;
+  text-align: center;
+}
+
+.mf__cta-text {
+  margin-top: 16px;
+  font-weight: 600;
+  text-decoration: underline;
+  color: #ffd700;
+  transition: color 0.2s ease;
+}
+
+.mf__cta-text:hover {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .made-for-you {
+    justify-content: center;
+    padding: 80px 16px;
+  }
+  .mf__inner {
+    margin-right: 0;
+  }
+  .mf__content {
+    align-items: center;
+    text-align: center;
+  }
+  .mf__title {
+    font-size: 2rem;
+  }
+  .mf__text {
+    font-size: 1rem;
+  }
+}
+{% endstylesheet %}
